@@ -1,7 +1,13 @@
+
+using Microsoft.EntityFrameworkCore;
+using Vega.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<VegaDbContext>(option => option.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection")
+));
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
