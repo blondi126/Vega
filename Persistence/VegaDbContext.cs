@@ -10,4 +10,9 @@ namespace Vega.Persistence;
         }
 
         public DbSet<Make>? Makes { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=VegaDataBase;Trusted_Connection=True");
+        }
     }
