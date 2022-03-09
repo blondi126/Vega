@@ -13,7 +13,14 @@ const PROXY_CONFIG = [
     headers: {
       Connection: 'Keep-Alive'
     }
-  }
+  },
+  {
+    context: [
+      "/api/*",
+    ],
+    target: "https://localhost:7052",
+    secure: false
+    }
 ]
 
 module.exports = PROXY_CONFIG;

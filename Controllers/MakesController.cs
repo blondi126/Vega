@@ -20,9 +20,9 @@ namespace Vega.Controllers
 
         // GET /api/customers
         [HttpGet("api/makes")]
-        public async Task<IEnumerable<MakeResource>> GetMakes()
+        public async Task<IEnumerable<MakeResource>> GetMakesAsync()
         {
-            var makes = await _context.Makes.Include(c => c.Models).ToListAsync();
+            var makes = await _context.Makes!.Include(c => c.Models).ToListAsync();
 
             return _mapper.Map<List<Make>, List<MakeResource>>(makes);
         }
