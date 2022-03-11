@@ -9,5 +9,7 @@ namespace Vega.Models
         [Required]
         [StringLength(255)]
         public string? Name { get; set; }
+
+        public List<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
     }
 }
