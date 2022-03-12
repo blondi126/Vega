@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace Vega.Models
+namespace Vega.Core.Models
 {
     public class Vehicle
     {

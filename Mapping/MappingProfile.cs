@@ -1,9 +1,7 @@
-using System.Linq;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Vega.Controllers.Resources;
+using Vega.Core.Models;
 using Vega.Models;
-using Vega.Persistence;
 
 namespace Vega.Mapping
 {

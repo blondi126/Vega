@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Vega.Models;
+using Vega.Core;
+using Vega.Core.Models;
 
 namespace Vega.Persistence
 {
@@ -11,15 +12,50 @@ namespace Vega.Persistence
         {
             _context = context;
         }
-        public async Task<Vehicle?> GetVehicle(int id)
+
+        public async Task<List<Vehicle>> GetVehiclesAsync()
         {
-            var result = await _context.Vehicles!
+            return await _context.Vehicles!.Include(v => v.Features).ToListAsync();
+          
+        }
+        public async Task<Vehicle?> GetVehicleAsync(int id, bool includeRelated = true)
+        {
+            if(!includeRelated)
+                return await _context.Vehicles!.FindAsync(id);
+            
+            return await _context.Vehicles!
                 .Include(v => v.Features)
                 .Include(v => v.Model)
                     .ThenInclude( m => m!.Make)
                 .SingleOrDefaultAsync( v => v.Id == id);
+        }
 
-            return result;
+        public async Task<Model?> GetModelAsync(int id)
+        {
+            return await _context.Models!.Include(m => m.Make).SingleOrDefaultAsync(m => m.Id == id);
+        }
+        public async Task<List<Make>> GetMakesAsync()
+        {
+                return await _context.Makes!.Include(c => c.Models).ToListAsync();
+                
+        }
+
+        public async Task<List<Feature>> GetFeaturesAsync(ICollection<int>? featuresResource = null)
+        {
+                if (featuresResource == null)
+                    return await _context.Features!.ToListAsync();
+
+                return  await _context.Features!.Where(f => featuresResource.Contains(f.Id)).ToListAsync();
+        }
+
+        public async void AddAsync(Vehicle vehicle)
+        {
+            await _context.Vehicles!.AddAsync(vehicle);
+        }
+
+        public void Remove(Vehicle vehicle)
+        {
+             _context.Vehicles!.Remove(vehicle);
         }
     }
 }
