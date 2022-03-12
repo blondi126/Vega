@@ -3,16 +3,13 @@ using Vega.Models;
 
 namespace Vega.Controllers.Resources
 {
-    public class MakeResource
+    public class MakeResource: IdNamePairResource
     {
-        public int Id { get; set; }
-
-        public string? Name { get; set; }
-        public ICollection<ModelResource> Models {get; set;}
+        public ICollection<IdNamePairResource> Models {get; set;}
 
         public MakeResource()
         {
-            Models = new Collection<ModelResource>();
+            Models = new Collection<IdNamePairResource>();
         }
     }
 }
