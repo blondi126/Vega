@@ -20,7 +20,7 @@ namespace Vega.Mapping
             CreateMap<Vehicle, SaveVehicleResource>()
                 .ForMember( vr => vr.Features, opt => opt.MapFrom( v => v.Features.Select(vf => vf.Id)));
             CreateMap<Vehicle, VehicleResource>()
-                .ForMember( vr => vr.Make, opt => opt.MapFrom(v => v.Model.Make))
+                .ForMember( vr => vr.Make, opt => opt.MapFrom(v => v.Model!.Make))
                 .ForMember( vr => vr.Features, opt => opt.MapFrom( v => v.Features.Select(vf => new IdNamePairResource {Id = vf.Id, Name = vf.Name})));
            
 
