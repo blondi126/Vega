@@ -25,6 +25,7 @@
     "@angular/router": "~13.0.1",
     "@sentry/angular": "^6.18.2",
     "@sentry/tracing": "^6.18.2",
+    "@types/underscore": "^1.11.4",
     "bootstrap": "^5.1.0",
     "jquery": "^3.5.1",
     "ngx-toastr": "^14.2.2",
@@ -32,6 +33,7 @@
     "popper.js": "^1.16.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
+    "underscore": "^1.13.2",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
