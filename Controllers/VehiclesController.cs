@@ -6,7 +6,7 @@ using Vega.Core;
 
 namespace Vega.Controllers
 {
-    [Route("/api/vehicles")]
+    //[Route("/api/vehicles/")]
     public class VehiclesController : Controller
     {
         private readonly IMapper _mapper;
@@ -23,6 +23,7 @@ namespace Vega.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource) 
         {
+            return Ok();
             throw new Exception();
             
             if (!ModelState.IsValid)
@@ -62,7 +63,7 @@ namespace Vega.Controllers
             return Ok(vehiclesResource);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("/api/vehicles/{id}")]
         public async Task<IActionResult> ReadVehicle(int id)
         {
             var vehicle = await _repository.GetVehicleAsync(id);

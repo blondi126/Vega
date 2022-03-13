@@ -44,6 +44,7 @@ Sentry.init({
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'vehicle/new', component: VehicleFormComponent},
+      { path: 'vehicle/:id', component: VehicleFormComponent},
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ])
