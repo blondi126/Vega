@@ -23,11 +23,13 @@
     "@angular/platform-browser-dynamic": "~13.0.1",
     "@angular/platform-server": "~13.0.1",
     "@angular/router": "~13.0.1",
+    "@sentry/angular": "^6.18.2",
+    "@sentry/tracing": "^6.18.2",
     "bootstrap": "^5.1.0",
     "jquery": "^3.5.1",
+    "ngx-toastr": "^14.2.2",
     "oidc-client": "^1.11.5",
     "popper.js": "^1.16.0",
-    "run-script-os": "^1.1.6",
     "rxjs": "~6.6.0",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
@@ -45,7 +47,7 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "run-script-os": "^1.1.6",
     "typescript": "~4.4.4"
-  },
-  "optionalDependencies": {}
+  }
 }
