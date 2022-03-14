@@ -23,8 +23,7 @@ namespace Vega.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
-            return Ok();
-
+    
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -57,7 +56,7 @@ namespace Vega.Controllers
             if (vehicles == null)
                 return NotFound("Vehicles not found");
 
-            var vehiclesResource = _mapper.Map<List<Vehicle>, List<VehicleResource>>(vehicles);
+            var vehiclesResource = _mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles);
 
             return Ok(vehiclesResource);
         }
