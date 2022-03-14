@@ -23,6 +23,7 @@ namespace Vega.Mapping
            
 
             // API Resource to Domain
+            CreateMap<FilterResource, Filter>();
             CreateMap<ContactResource, Contact>();
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember( v => v.Id, opt => opt.Ignore())
