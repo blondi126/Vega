@@ -10,8 +10,18 @@
             <option *ngFor="let m of makes" value="{{ m.id }}">{{ m.name }}</option>
         </select>
     </div>
+    <div class="form-group">
+        <label for="model">Model</label>
+        <select id="model" class="form-control" [(ngModel)]="filter.modelId" (change)="onFilterChange()">
+            <option value=""></option>
+            <ng-container *ngFor="let make of makes">
+                <option *ngFor="let m of make.models" value="{{ m.id }}">{{ m.name }}</option>
+            </ng-container>
+        </select>
+    </div>  
     <button class="btn btn-defaul" (click)="resetFilter()">Reset</button>
 </div>
+
 <table class="table">
   <thead>
     <tr>

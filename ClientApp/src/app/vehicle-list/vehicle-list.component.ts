@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Vehicle, IdNamePair } from './../models/vehicle';
+import { IdNamePair } from './../models/vehicle';
 import { VehicleService } from '../services/vehicle.service';
 
 @Component({
@@ -9,8 +9,8 @@ import { VehicleService } from '../services/vehicle.service';
 })
 export class VehicleListComponent implements OnInit {
   vehicles: any[] = [];
-  allVehicles: any[] = [];
-  makes!: IdNamePair[];
+ // allVehicles: any[] = [];
+  makes: any[] = [];
   filter:any = {};
 
   constructor(private vehicleService: VehicleService) { }
@@ -19,20 +19,25 @@ export class VehicleListComponent implements OnInit {
     this.vehicleService.getMakes()
       .subscribe((makes:any)=> this.makes = makes)
 
-    this.vehicleService.getVehicles()
-      .subscribe((data:any) => this.vehicles = this.allVehicles = data);
+    console.log(this.makes)
+    this.populateVehicles();
+  }
+
+  private populateVehicles() {
+    this.vehicleService.getVehicles(this.filter)
+      .subscribe((data:any) => this.vehicles = data);
   }
 
   onFilterChange() {
-    var vehicles = this.allVehicles;
-
-    if(this.filter.makeId)
-      vehicles = vehicles.filter(v => v.make.id == this.filter.makeId)
-
-    if(this.filter.modelId)
-      vehicles = vehicles.filter(v => v.model.id == this.filter.modelId)
-
-      this.vehicles = vehicles;
+    this.populateVehicles();
+    console.log(this.makes)
+      // Фильтрация на стороне клиента
+    // var vehicles = this.allVehicles;
+    // if(this.filter.makeId)
+    //   vehicles = vehicles.filter(v => v.make.id == this.filter.makeId)
+    // if(this.filter.modelId)
+    //   vehicles = vehicles.filter(v => v.model.id == this.filter.modelId)
+    //   this.vehicles = vehicles;
   }
 
   resetFilter() {

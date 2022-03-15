@@ -19,7 +19,6 @@ namespace Vega.Controllers
             _mapper = mapper;
         }
 
-        // GET /api/customers
         [HttpGet("api/makes")]
         public async Task<IEnumerable<MakeResource>> GetMakesAsync()
         {
