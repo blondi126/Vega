@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { IdNamePair } from './../models/vehicle';
 import { VehicleService } from '../services/vehicle.service';
 import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 

@@ -18,6 +18,7 @@ import { VehicleService } from './services/vehicle.service';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { PaginationComponent } from './shared/pagination.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ViewVehicleComponent } from './view-vehicle/view-vehicle.component';
 
 
 Sentry.init({
@@ -33,7 +34,8 @@ Sentry.init({
     HomeComponent,
     VehicleFormComponent,
     VehicleListComponent,
-    PaginationComponent
+    PaginationComponent,
+    ViewVehicleComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,8 +47,9 @@ Sentry.init({
     RouterModule.forRoot([
       { path: '', component: VehicleListComponent, pathMatch: 'full' },
       { path: 'vehicles/new', component: VehicleFormComponent},
-      { path: 'vehicles/:id', component: VehicleFormComponent},
+      { path: 'vehicles/edit/:id', component: VehicleFormComponent},
       { path: 'vehicles', component: VehicleListComponent},
+      { path: 'vehicles/:id', component: ViewVehicleComponent}
     ]),
     FontAwesomeModule
   ],

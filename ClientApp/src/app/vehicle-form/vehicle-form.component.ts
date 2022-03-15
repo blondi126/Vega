@@ -1,11 +1,10 @@
 import { ToastrService } from 'ngx-toastr';
-import { SaveVehicle, Vehicle } from './../models/vehicle';
+import { SaveVehicle } from './../models/vehicle';
 import { VehicleService } from '../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import * as _ from 'underscore';
-import { any } from 'underscore';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -36,7 +35,7 @@ export class VehicleFormComponent implements OnInit {
     private router: Router) {
 
     route.params.subscribe(p => {
-      this.vehicle.id = +p['id'];
+      this.vehicle.id = +p['id'] || 0;
     })
   }
 
@@ -94,27 +93,13 @@ export class VehicleFormComponent implements OnInit {
   }
 
   submit() {
-    if (this.vehicle.id)
-      this.vehicleService.updateVehicle(this.vehicle)
-        .subscribe(x => {
-          this.toastrService.success('The vehicle was sucessfully update.', 'Success', {
-            closeButton: true,
-            timeOut: 5000
-          });
-        });
-    else
-      this.vehicleService.create(this.vehicle)
-        .subscribe(
-          x => console.log(x));
+    var result$ = (this.vehicle.id) ? this.vehicleService.updateVehicle(this.vehicle) : this.vehicleService.create(this.vehicle);
+    result$.subscribe((vehicle:any) => { this.vehicle = vehicle;
+      this.toastrService.success('Data was sucessfully saved.', 'Success', {
+        closeButton: true,
+        timeOut: 5000
+      });
+      this.router.navigate(['/vehicles/', this.vehicle.id])
+    });
   }
-
-  delete() {
-    if (confirm("Are you sure?")) {
-      this.vehicleService.deleteVehicle(this.vehicle.id)
-        .subscribe(x => {
-          this.router.navigate(['/']);
-        });
-    }
-  }
-  
 }
