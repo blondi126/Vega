@@ -1,6 +1,8 @@
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Vega.Core;
 using Vega.Core.Models;
+using Vega.Extensions;
 
 namespace Vega.Persistence
 {
@@ -13,7 +15,7 @@ namespace Vega.Persistence
             _context = context;
         }
 
-        public async Task<IEnumerable<Vehicle>> GetVehiclesAsync(Filter filter)
+        public async Task<IEnumerable<Vehicle>> GetVehiclesAsync(VehicleQuery queryObj)
         {
             var query = _context.Vehicles!
                 .Include(v => v.Model)
@@ -21,15 +23,27 @@ namespace Vega.Persistence
                 .Include(v => v.Features)
                 .AsQueryable();
 
-            if (filter.MakeId.HasValue)
-                query = query.Where(v => v.Model!.MakeId == filter.MakeId);
+
+             if (queryObj.MakeId.HasValue)
+                query = query.Where(v => v.Model!.MakeId == queryObj.MakeId);
             
-            if (filter.ModelId.HasValue)
-                query = query.Where(v => v.ModelId == filter.ModelId);
+            if (queryObj.ModelId.HasValue)
+                query = query.Where(v => v.ModelId == queryObj.ModelId);
+
+            var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
+            {
+                ["make"] = v => v.Model!.Make!.Name!,
+                ["model"] = v => v.Model!.Name!,
+                ["contactName"] = v => v.Contact!.Name!,
+            };
+
+            query = query.ApplyOrdering(queryObj,columnsMap);
+
+            query = query.ApplyPaging(queryObj);
 
             return await query.ToListAsync();
-
         }
+
         public async Task<Vehicle?> GetVehicleAsync(int id, bool includeRelated = true)
         {
             if (!includeRelated)

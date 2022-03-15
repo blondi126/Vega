@@ -49,9 +49,9 @@ namespace Vega.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ReadVehicles(FilterResource filterResource)
+        public async Task<IActionResult> ReadVehicles(FilterQueryResource filterResource)
         {
-            var filter = _mapper.Map<FilterResource, Filter>(filterResource);
+            var filter = _mapper.Map<FilterQueryResource, VehicleQuery>(filterResource);
             var vehicles = await _repository.GetVehiclesAsync(filter);
 
             if (vehicles == null)

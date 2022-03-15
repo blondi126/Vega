@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { IdNamePair } from './../models/vehicle';
 import { VehicleService } from '../services/vehicle.service';
+import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -11,7 +12,18 @@ export class VehicleListComponent implements OnInit {
   vehicles: any[] = [];
  // allVehicles: any[] = [];
   makes: any[] = [];
-  filter:any = {};
+  query:any = {
+    pageSize: 3
+  };
+  asc = faSortUp;
+  desc = faSortDown;
+  columns = [
+    {title: 'Id'},
+    {title: 'Make', key: 'make', isSortable: true},
+    {title: 'Model', key: 'model', isSortable: true},
+    {title: 'Contact Name', key: 'contactName', isSortable: true},
+    { }
+  ];
 
   constructor(private vehicleService: VehicleService) { }
 
@@ -24,7 +36,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   private populateVehicles() {
-    this.vehicleService.getVehicles(this.filter)
+    this.vehicleService.getVehicles(this.query)
       .subscribe((data:any) => this.vehicles = data);
   }
 
@@ -41,7 +53,22 @@ export class VehicleListComponent implements OnInit {
   }
 
   resetFilter() {
-    this.filter = {};
+    this.query = {};
     this.onFilterChange();
+  }
+
+  sortBy(columnName:any) {
+    if(this.query.sortBy == columnName) {
+      this.query.isSortAscending = !this.query.isSortAscending;
+    } else {
+      this.query.sortBy = columnName;
+      this.query.isSortAscending = true;
+    }
+    this.populateVehicles();
+  }
+
+  onPageChange(page:any) {
+    this.query.page = page;
+    this.populateVehicles();
   }
 }

@@ -18,6 +18,8 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { VehicleService } from './services/vehicle.service';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
+import { PaginationComponent } from './shared/pagination.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 Sentry.init({
@@ -34,7 +36,8 @@ Sentry.init({
     CounterComponent,
     FetchDataComponent,
     VehicleFormComponent,
-    VehicleListComponent
+    VehicleListComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -50,7 +53,8 @@ Sentry.init({
       { path: 'vehicles', component: VehicleListComponent},
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-    ])
+    ]),
+    FontAwesomeModule
   ],
   providers: [
      { provide: ErrorHandler, useClass: AppErrorHandler},

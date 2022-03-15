@@ -5,14 +5,14 @@
 <div class="well">
     <div class="form-group">
         <label for="make">Make</label>
-        <select id="make" class="form-control" [(ngModel)]="filter.makeId" (change)="onFilterChange()">
+        <select id="make" class="form-control" [(ngModel)]="query.makeId" (change)="onFilterChange()">
             <option value=""></option>
             <option *ngFor="let m of makes" value="{{ m.id }}">{{ m.name }}</option>
         </select>
     </div>
     <div class="form-group">
         <label for="model">Model</label>
-        <select id="model" class="form-control" [(ngModel)]="filter.modelId" (change)="onFilterChange()">
+        <select id="model" class="form-control" [(ngModel)]="query.modelId" (change)="onFilterChange()">
             <option value=""></option>
             <ng-container *ngFor="let make of makes">
                 <option *ngFor="let m of make.models" value="{{ m.id }}">{{ m.name }}</option>
@@ -24,13 +24,16 @@
 
 <table class="table">
   <thead>
-    <tr>
-      <th>Id</th>
-      <th>Make</th>
-      <th>Model</th>
-      <th>Contact Name</th>
-      <th></th>
-    </tr>
+    <th *ngFor="let c of columns">
+      <div *ngIf="c.isSortable" (click)="sortBy(c.key)">
+        {{c.title}}
+        <fa-icon *ngIf="query.sortBy === c.key && query.isSortAscending" [icon]="asc"></fa-icon>
+        <fa-icon *ngIf="query.sortBy === c.key && !query.isSortAscending" [icon]="desc"></fa-icon>
+      </div>
+      <div *ngIf="!c.isSortable">
+        {{c.title}}
+      </div>
+    </th>
   </thead>
   <tbody>
     <tr *ngFor="let v of vehicles">
@@ -44,3 +47,4 @@
     </tr>
   </tbody>
 </table> 
+<pagination [total-items]="10" [page-size]="query.pageSize" (page-changed)="onPageChange($event)"></pagination>
