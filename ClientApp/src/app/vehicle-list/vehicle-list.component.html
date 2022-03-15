@@ -1,6 +1,6 @@
 <h2>Vehicles</h2>
 <p>
-  <a [routerLink]="['/vehicles/new']" class="btn btn-primary">New Vehicle</a>
+  <a [routerLink]="['/vehicles/new']" class="btn btn-primary new_vehicle">New Vehicle</a>
 </p>
 <div class="well">
     <div class="form-group">
@@ -19,7 +19,7 @@
             </ng-container>
         </select>
     </div>  
-    <button class="btn btn-defaul" (click)="resetFilter()">Reset</button>
+    <button class="btn btn-primary reset" (click)="resetFilter()">Reset</button>
 </div>
 
 <table class="table">
@@ -47,4 +47,6 @@
     </tr>
   </tbody>
 </table> 
+
 <pagination [total-items]="queryResult.totalItems" [page-size]="query.pageSize" (page-changed)="onPageChange($event)"></pagination>
+

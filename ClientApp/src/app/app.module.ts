@@ -13,8 +13,6 @@ import * as Sentry from "@sentry/angular";
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { VehicleService } from './services/vehicle.service';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
@@ -33,8 +31,6 @@ Sentry.init({
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
     VehicleFormComponent,
     VehicleListComponent,
     PaginationComponent
@@ -51,8 +47,6 @@ Sentry.init({
       { path: 'vehicles/new', component: VehicleFormComponent},
       { path: 'vehicles/:id', component: VehicleFormComponent},
       { path: 'vehicles', component: VehicleListComponent},
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
     ]),
     FontAwesomeModule
   ],
