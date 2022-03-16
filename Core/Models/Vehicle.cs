@@ -11,10 +11,12 @@ namespace Vega.Core.Models
         public Contact? Contact {get; set;}
         public DateTime LastUpdate { get; set; }
         public ICollection<Feature> Features { get; set; }
+        public ICollection<Photo> Photos { get; set; }
 
         public Vehicle()
         {
             Features = new Collection<Feature>();
+            Photos = new Collection<Photo>();
         }
     }
 }
