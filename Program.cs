@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<IVehicleRepository,VehicleRepository>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+builder.Services.AddScoped<IPhotoRepository,PhotoRepository>();
 
  builder.Services.AddCors(opt =>
         {

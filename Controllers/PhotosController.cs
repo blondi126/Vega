@@ -14,23 +14,39 @@ namespace Vega.Controllers
     public class PhotosController : Controller
     {
         private readonly IWebHostEnvironment host;
-        private readonly IVehicleRepository repository;
+        private readonly IVehicleRepository vehicleRepository;
         private readonly IUnitOfWork unitOfWork;
         private readonly PhotoSettings photoSettings;
         private readonly IMapper mapper;
-        public PhotosController(IWebHostEnvironment host, IVehicleRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
+        public IPhotoRepository photoRepository { get; }
+        public PhotosController(
+            IWebHostEnvironment host,
+            IVehicleRepository vehicleRepository,
+            IPhotoRepository photoRepository,
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            IOptionsSnapshot<PhotoSettings> options)
         {
+            this.photoRepository = photoRepository;
             this.photoSettings = options.Value;
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
-            this.repository = repository;
+            this.vehicleRepository = vehicleRepository;
             this.host = host;
-
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPhotos(int vehicleId)
+        {
+            var photos = await photoRepository.GetPhotos(vehicleId);
+
+            return Ok(mapper.Map<IEnumerable<Photo>, IEnumerable<PhotoResource>>(photos));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Upload(int vehicleId, IFormFile file)
         {
-            var vehicle = await repository.GetVehicleAsync(vehicleId, includeRelated: false);
+            var vehicle = await vehicleRepository.GetVehicleAsync(vehicleId, includeRelated: false);
             if (vehicle == null)
                 return NotFound();
 
@@ -63,7 +79,7 @@ namespace Vega.Controllers
                 thumb.Save(thumbPath);
             }
 
-            var photo = new Photo { FileName = fileName };
+            var photo = new Photo { FileName = thumbName };
             vehicle.Photos.Add(photo);
             await unitOfWork.CompleteAsync();
 
