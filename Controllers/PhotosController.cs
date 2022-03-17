@@ -34,7 +34,7 @@ namespace Vega.Controllers
             if (vehicle == null)
                 return NotFound();
 
-            if (file==null) return BadRequest("Null file.");
+            if (file == null) return BadRequest("Null file.");
             if (file.Length == 0) return BadRequest("Empty file.");
             if (file.Length > photoSettings.MaxBytes) return BadRequest("Max file size exceeded.");
             if (!photoSettings.IsSupported(file.FileName)) return BadRequest("Invalid file type.");
@@ -54,17 +54,13 @@ namespace Vega.Controllers
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
-                try 
-                {
-                    var image = Image.FromStream(stream);
-                    var thumb = image.GetThumbnailImage(100, 100, () => false, IntPtr.Zero);
-                    thumb.Save(thumbPath); 
-                }
-                catch
-                {
-                    throw new Exception("Can't get thumbnail");
-                }
-                
+
+                var thumb = photoSettings.GetThumbnail(stream);
+
+                if (thumb == null)
+                    throw new Exception("Can't get a thumbnail");
+
+                thumb.Save(thumbPath);
             }
 
             var photo = new Photo { FileName = fileName };
