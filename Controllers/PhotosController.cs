@@ -1,8 +1,10 @@
+using System.Drawing;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Vega.Controllers.Resources;
 using Vega.Core;
 using Vega.Core.Models;
+
 
 namespace Vega.Controllers
 {
@@ -32,12 +34,26 @@ namespace Vega.Controllers
             if (!Directory.Exists(uploadsFolderPath))
                 Directory.CreateDirectory(uploadsFolderPath);
 
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            var fileGuid = Guid.NewGuid().ToString();
+            var fileName = fileGuid + Path.GetExtension(file.FileName);
+            var thumbName = fileGuid + "-thumb" + Path.GetExtension(file.FileName);
             var filePath = Path.Combine(uploadsFolderPath, fileName);
+            var thumbPath = Path.Combine(uploadsFolderPath, thumbName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
+                try 
+                {
+                    var image = Image.FromStream(stream);
+                    var thumb = image.GetThumbnailImage(100, 100, () => false, IntPtr.Zero);
+                    thumb.Save(thumbPath); 
+                }
+                catch
+                {
+                    throw new Exception("Can't get thumbnail");
+                }
+                
             }
 
             var photo = new Photo { FileName = fileName };
