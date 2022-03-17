@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Vega.Persistence;
 using Vega.Core;
+using Vega.Core.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,8 @@ builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
                     .SetIsOriginAllowed((host) => true);
             });
         });
+
+builder.Services.Configure<PhotoSettings>(builder.Configuration.GetSection("PhotoSettings"));
 
 builder.Services.AddAutoMapper(typeof(Program));
 
