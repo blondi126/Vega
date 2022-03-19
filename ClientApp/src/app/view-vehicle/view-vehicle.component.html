@@ -38,7 +38,7 @@
     <div role="tabpanel" class="tab-pane fade show" id="photos"> 
       <h2>Photos</h2>
       <input type="file" (change)="uploadPhoto()" #fileInput>
-      <img *ngFor="let photo of photos" src="/uploads/{{ photo.fileName }}" class="img-thumbnail">
+      <img *ngFor="let photo of photos" src="https://localhost:7052/uploads/{{ photo.fileName }}" class="img-thumbnail">
     </div>
   </div>
 </div>
