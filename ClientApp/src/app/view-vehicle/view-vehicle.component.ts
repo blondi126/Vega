@@ -11,32 +11,32 @@ import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http'
   styleUrls: ['./view-vehicle.component.css']
 })
 export class ViewVehicleComponent implements OnInit {
-  @ViewChild('fileInput') fileInput!: ElementRef ;
+  @ViewChild('fileInput') fileInput!: ElementRef;
   vehicle: any;
   vehicleId: number = 0;
   photos!: any[];
   progress: number = 0;
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private router: Router,
     private toasty: ToastrService,
     private photoService: PhotoService,
-    private vehicleService: VehicleService)
-    {
-      route.params.subscribe(p => {
-        this.vehicleId = +p['id'];
-        if (isNaN(this.vehicleId) || this.vehicleId <= 0) {
-          router.navigate(['/vehicles']);
-          return; 
-        }
-      });
-    }
+    private vehicleService: VehicleService) {
+    route.params.subscribe(p => {
+      this.vehicleId = +p['id'];
+      if (isNaN(this.vehicleId) || this.vehicleId <= 0) {
+        router.navigate(['/vehicles']);
+        return;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.photoService.getPhotos(this.vehicleId)
-      .subscribe((photos:any) => {
-        this.photos = photos});
+      .subscribe((photos: any) => {
+        this.photos = photos
+      });
 
     this.vehicleService.getVehicle(this.vehicleId)
       .subscribe(
@@ -44,7 +44,7 @@ export class ViewVehicleComponent implements OnInit {
         err => {
           if (err.status == 404) {
             this.router.navigate(['/vehicles']);
-            return; 
+            return;
           }
         });
   }
@@ -60,31 +60,40 @@ export class ViewVehicleComponent implements OnInit {
 
   uploadPhoto() {
     var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
-
-    this.photoService.upload(this.vehicleId, nativeElement.files![0])
-    .subscribe((event: HttpEvent<any>) => {
-      switch (event.type) {
-        case HttpEventType.Sent:
-          console.log('Request has been made!');
-          break;
-        case HttpEventType.ResponseHeader:
-          console.log('Response header has been received!');
-          break;
-        case HttpEventType.UploadProgress:
-          this.progress = Math.round(event.loaded / event.total! * 100);
-          console.log(`Uploaded! ${this.progress}%`);
-          break;
-        case HttpEventType.Response:
-          console.log('User successfully created!', event.body);
-          this.photos.push(event.body);
-          setTimeout(() => {
-            this.progress = 0;
-          }, 1500);
-          break;
+    var file = nativeElement.files![0];
+    nativeElement.value = '';
+    this.photoService.upload(this.vehicleId, file)
+      .subscribe((event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.Sent:
+            console.log('Request has been made!');
+            break;
+          case HttpEventType.ResponseHeader:
+            console.log('Response header has been received!');
+            break;
+          case HttpEventType.UploadProgress:
+            this.progress = Math.round(event.loaded / event.total! * 100);
+            console.log(`Uploaded! ${this.progress}%`);
+            break;
+          case HttpEventType.Response:
+            console.log('User successfully created!', event.body);
+            this.photos.push(event.body);
+            setTimeout(() => {
+              this.progress = 0;
+            }, 1500);
+            break;
           default:
             console.log(event);
-      }
-    }
-      );
+        }
+      },
+        err => {
+          this.toasty.error(err.error, 'Error', {
+            closeButton: true,
+            timeOut: 5000
+          });
+        });
+    setTimeout(() => {
+      this.progress = 0;
+    }, 1500);
   }
 }
