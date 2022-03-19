@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({providedIn: 'root'})
 export class PhotoService {
@@ -7,10 +8,13 @@ export class PhotoService {
     constructor(private http: HttpClient) { }
     
 
-    upload(vehicleId:any, photo:any) {
+    upload(vehicleId:any, photo:any): Observable<any> {
         var formData = new FormData();
         formData.append('file', photo)
-        return this.http.post(`${this.serverUrl}/api/vehicles/${vehicleId}/photos`, formData)
+        return this.http.post(`${this.serverUrl}/api/vehicles/${vehicleId}/photos`, formData, {
+            reportProgress: true,
+            observe: 'events',
+          });
     }
 
     getPhotos(vehicleId:any) {
