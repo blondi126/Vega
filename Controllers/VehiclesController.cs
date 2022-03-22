@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Vega.Controllers.Resources;
 using Vega.Core.Models;
 using Vega.Core;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Vega.Controllers
 {
@@ -21,6 +22,7 @@ namespace Vega.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateVehicle([FromBody] SaveVehicleResource vehicleResource)
         {
     
@@ -76,6 +78,7 @@ namespace Vega.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody] SaveVehicleResource vehicleResource)
         {
             if (!ModelState.IsValid)
@@ -110,6 +113,7 @@ namespace Vega.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             var vehicle = await _repository.GetVehicleAsync(id, includeRelated: false);
