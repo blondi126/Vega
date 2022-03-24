@@ -65,7 +65,7 @@ namespace Vega.Controllers
         }
 
         [HttpGet("/api/vehicles/{id}")]
-        [Authorize]
+        [Authorize(Policies.RequireAdminRole)]
         public async Task<IActionResult> ReadVehicle(int id)
         {
             var vehicle = await _repository.GetVehicleAsync(id);

@@ -4,6 +4,7 @@ using Vega.Core;
 using Vega.Core.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Vega.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,10 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddDbContext<VegaDbContext>(option => option.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
 ));
+
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy(Policies.RequireAdminRole, policy => policy.RequireClaim("https://vega.com/roles", "Admin"));
+});
 
 builder.Services.AddControllersWithViews();
 
