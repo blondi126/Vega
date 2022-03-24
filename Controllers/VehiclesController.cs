@@ -65,7 +65,6 @@ namespace Vega.Controllers
         }
 
         [HttpGet("/api/vehicles/{id}")]
-        [Authorize(Policies.RequireAdminRole)]
         public async Task<IActionResult> ReadVehicle(int id)
         {
             var vehicle = await _repository.GetVehicleAsync(id);
@@ -114,7 +113,7 @@ namespace Vega.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Policies.RequireAdminRole)]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             var vehicle = await _repository.GetVehicleAsync(id, includeRelated: false);

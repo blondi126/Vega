@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from '../services/vehicle.service';
 import { faSortUp, faSortDown } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -26,7 +27,7 @@ export class VehicleListComponent implements OnInit {
     { }
   ];
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(private vehicleService: VehicleService, public auth: AuthService,) { }
 
   ngOnInit(): void {
     this.vehicleService.getMakes()

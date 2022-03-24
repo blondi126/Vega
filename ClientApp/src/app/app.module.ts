@@ -53,10 +53,10 @@ Sentry.init({
     ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: VehicleListComponent, pathMatch: 'full' },
-      { path: 'vehicles/new', component: VehicleFormComponent, canActivate: [AuthGuard], },
-      { path: 'vehicles/edit/:id', component: VehicleFormComponent, canActivate: [AuthGuard], },
+      { path: 'vehicles/new', component: VehicleFormComponent, canActivate: [AuthGuard] },
+      { path: 'vehicles/edit/:id', component: VehicleFormComponent, canActivate: [AuthGuard] },
       { path: 'vehicles', component: VehicleListComponent },
-      { path: 'vehicles/:id', component: ViewVehicleComponent, canActivate: [AuthGuard], }
+      { path: 'vehicles/:id', component: ViewVehicleComponent, canActivate: [AuthGuard] }
     ]),
     FontAwesomeModule,
     AuthModule.forRoot({

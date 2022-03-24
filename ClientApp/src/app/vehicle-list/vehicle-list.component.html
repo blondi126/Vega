@@ -1,5 +1,5 @@
 <h2>Vehicles</h2>
-<p>
+<p *ngIf="auth.isAuthenticated$ | async">
   <a [routerLink]="['/vehicles/new']" class="btn btn-primary new_vehicle">New Vehicle</a>
 </p>
 <div class="well">
