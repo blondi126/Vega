@@ -4,7 +4,7 @@ import { ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as Sentry from "@sentry/angular";
 import { AuthModule } from '@auth0/auth0-angular';
 import { AuthButtonComponent } from './shared/auth-button.component';
+import { AuthGuard } from '@auth0/auth0-angular';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -50,21 +53,37 @@ Sentry.init({
     ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: VehicleListComponent, pathMatch: 'full' },
-      { path: 'vehicles/new', component: VehicleFormComponent},
-      { path: 'vehicles/edit/:id', component: VehicleFormComponent},
-      { path: 'vehicles', component: VehicleListComponent},
-      { path: 'vehicles/:id', component: ViewVehicleComponent}
+      { path: 'vehicles/new', component: VehicleFormComponent, canActivate: [AuthGuard], },
+      { path: 'vehicles/edit/:id', component: VehicleFormComponent, canActivate: [AuthGuard], },
+      { path: 'vehicles', component: VehicleListComponent },
+      { path: 'vehicles/:id', component: ViewVehicleComponent, canActivate: [AuthGuard], }
     ]),
     FontAwesomeModule,
     AuthModule.forRoot({
       domain: 'dev-k2eamjwk.us.auth0.com',
-      clientId: 'eOdRUPCbNbkft2VZgf5CroJ2aTWn2wrc'
+      clientId: 'eOdRUPCbNbkft2VZgf5CroJ2aTWn2wrc',
+      audience: "https://api.vega.com",
+      serverUrl: "https://localhost:7052",
+      httpInterceptor: {
+        allowedList: [
+          'https://localhost:7052/api/vehicles/*',
+          'https://localhost:7052/api/vehicles'
+        ],
+      },
     }),
   ],
   providers: [
-     { provide: ErrorHandler, useClass: AppErrorHandler},
+    {
+      provide: ErrorHandler,
+      useClass: AppErrorHandler
+    },
     VehicleService,
-    PhotoService
+    PhotoService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthHttpInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

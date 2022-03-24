@@ -7,17 +7,17 @@ import { DOCUMENT } from '@angular/common';
     template: `
     <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
      <li class="nav-item"  [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
-         <a class="nav-link text-dark" (click)="auth.logout({ returnTo: document.location.origin })">
-               Log out
-          </a>
+        <button class="btn btn-danger btn-block" (click)="auth.logout({ returnTo: document.location.origin })">
+            Log out
+         </button>
      </li>
     </ng-container>
 
     <ng-template #loggedOut>
         <li class="nav-item"  [routerLinkActive]="['link-active']" [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" (click)="auth.loginWithRedirect()">
+            <button class="btn btn-primary btn-block" (click)="auth.loginWithRedirect()">
                 Log in
-            </a>
+            </button>
         </li>
     </ng-template>
     `,

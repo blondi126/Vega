@@ -1,6 +1,8 @@
 import { SaveVehicle, Vehicle, IdNamePair } from './../models/vehicle';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '@auth0/auth0-angular';
+
 
 
 
@@ -12,7 +14,7 @@ export class VehicleService {
   private readonly vehiclesEndpoint = '/api/vehicles';
   private readonly serverUrl = 'https://localhost:7052';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authHttp: AuthService) { }
 
 
   getMakes() {
@@ -24,7 +26,7 @@ export class VehicleService {
   }
   
   create(vehicle: any) {
-    return this.http.post(this.vehiclesEndpoint, vehicle)
+    return this.http.post(this.serverUrl + this.vehiclesEndpoint, vehicle)
   }
 
   getVehicle(id: any) {

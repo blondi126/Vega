@@ -1,6 +1,15 @@
 <body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+
+  <div class="container" *ngIf="auth.isLoading$ | async; else loaded">
+    <a>Loading...</a>
   </div>
+
+  <ng-template #loaded>
+    <app-nav-menu></app-nav-menu>
+
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </ng-template>
+
 </body>
