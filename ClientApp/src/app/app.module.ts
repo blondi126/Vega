@@ -10,6 +10,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as Sentry from "@sentry/angular";
+import { AuthModule } from '@auth0/auth0-angular';
+import { AuthButtonComponent } from './shared/auth-button.component';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -36,7 +38,8 @@ Sentry.init({
     VehicleFormComponent,
     VehicleListComponent,
     PaginationComponent,
-    ViewVehicleComponent
+    ViewVehicleComponent,
+    AuthButtonComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -52,7 +55,11 @@ Sentry.init({
       { path: 'vehicles', component: VehicleListComponent},
       { path: 'vehicles/:id', component: ViewVehicleComponent}
     ]),
-    FontAwesomeModule
+    FontAwesomeModule,
+    AuthModule.forRoot({
+      domain: 'dev-k2eamjwk.us.auth0.com',
+      clientId: 'eOdRUPCbNbkft2VZgf5CroJ2aTWn2wrc'
+    }),
   ],
   providers: [
      { provide: ErrorHandler, useClass: AppErrorHandler},

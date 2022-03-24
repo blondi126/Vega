@@ -32,7 +32,6 @@ export class VehicleListComponent implements OnInit {
     this.vehicleService.getMakes()
       .subscribe((makes:any)=> this.makes = makes)
 
-    console.log(this.makes)
     this.populateVehicles();
   }
 
