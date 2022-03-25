@@ -34,6 +34,11 @@
               New Vehicle
             </a>
           </li> 
+          <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="isInRole('Admin')">
+            <a class="nav-link text-dark" [routerLink]="['/admin']">
+              Admin
+            </a>
+          </li> 
             <app-auth-button></app-auth-button>
         </ul>
       </div>

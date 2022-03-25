@@ -1,3 +1,4 @@
+import { AdminComponent } from './admin/admin.component';
 import { PhotoService } from './services/photo.service';
 import { AppErrorHandler } from './app.error-handler';
 import { ErrorHandler } from '@angular/core';
@@ -15,6 +16,7 @@ import { AuthButtonComponent } from './shared/auth-button.component';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthHttpInterceptor } from '@auth0/auth0-angular';
+import { NgChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -42,11 +44,13 @@ Sentry.init({
     VehicleListComponent,
     PaginationComponent,
     ViewVehicleComponent,
-    AuthButtonComponent
+    AuthButtonComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     CommonModule,
+    NgChartsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
@@ -55,6 +59,7 @@ Sentry.init({
       { path: '', component: VehicleListComponent, pathMatch: 'full' },
       { path: 'vehicles/new', component: VehicleFormComponent, canActivate: [AuthGuard] },
       { path: 'vehicles/edit/:id', component: VehicleFormComponent, canActivate: [AuthGuard] },
+      { path: 'admin', component: AdminComponent },
       { path: 'vehicles', component: VehicleListComponent },
       { path: 'vehicles/:id', component: ViewVehicleComponent, canActivate: [AuthGuard] }
     ]),
